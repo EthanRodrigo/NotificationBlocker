@@ -47,12 +47,27 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <Button
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Hit Me!"
-                android:textSize="20sp"
-                android:onClick="goToBlockedApps"/>
+                android:orientation="horizontal">
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Hit Me!"
+                    android:textSize="20sp"
+                    android:onClick="goToBlockedApps"
+                    android:layout_gravity="start"/>
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Get Notifications"
+                    android:textSize="20sp"
+                    android:layout_gravity="end"
+                    android:onClick="goToNotifications"/>
+            </LinearLayout>
 
             <TextView
                 android:layout_width="match_parent"
