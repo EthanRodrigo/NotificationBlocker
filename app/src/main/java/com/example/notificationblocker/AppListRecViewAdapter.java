@@ -76,7 +76,7 @@ public class AppListRecViewAdapter extends RecyclerView.Adapter<AppListRecViewAd
         notifyDataSetChanged();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public static class ViewHolder extends RecyclerView.ViewHolder{
         private TextView appName;
         private ImageView appIcon;
         private SwitchMaterial appStatus;

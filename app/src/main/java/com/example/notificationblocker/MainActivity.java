@@ -5,6 +5,7 @@ import androidx.core.app.NotificationManagerCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
@@ -14,6 +15,7 @@ import android.view.View;
 
 import com.example.notificationblocker.AppDB.App;
 import com.example.notificationblocker.BlockedAppsActivity.BlockedAppsActivity;
+import com.example.notificationblocker.ShowNotifications.ShowNotificationsActivity;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 
 import java.util.ArrayList;
@@ -78,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
 
     /***
      * isNotificationAccessGiven: Checking whether the user has granted the notification access or not
-     * @return bool accoring to the check
+     * @return bool according to the check
      */
     private boolean isNotificationAccessGiven() {
         try {
@@ -89,5 +91,9 @@ public class MainActivity extends AppCompatActivity {
             Log.d("Error Line Number", Log.getStackTraceString(e));
         }
         return false;
+    }
+    public void goToNotifications(View view){
+        Intent intent = new Intent(this, ShowNotificationsActivity.class);
+        startActivity(intent);
     }
 }

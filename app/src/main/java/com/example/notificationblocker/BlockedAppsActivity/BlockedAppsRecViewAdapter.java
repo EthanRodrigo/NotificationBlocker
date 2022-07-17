@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BlockedAppsRecViewAdapter extends RecyclerView.Adapter<BlockedAppsRecViewAdapter.ViewHolder>{
-    private Context context;
+    private final Context context;
     private List<App> blockedAppList = new ArrayList<>();
 
     public BlockedAppsRecViewAdapter(Context context) {
@@ -56,7 +56,7 @@ public class BlockedAppsRecViewAdapter extends RecyclerView.Adapter<BlockedAppsR
         notifyDataSetChanged();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public static class ViewHolder extends RecyclerView.ViewHolder{
         private TextView appName;
         private ImageView appIcon;
 

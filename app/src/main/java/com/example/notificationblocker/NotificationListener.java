@@ -1,29 +1,36 @@
 package com.example.notificationblocker;
 
 
+import android.app.Notification;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 
-import com.example.notificationblocker.AppDB.AppsDB;
+import androidx.annotation.RequiresApi;
 
+import com.example.notificationblocker.AppDB.App;
+import com.example.notificationblocker.AppDB.AppsDB;
+import com.example.notificationblocker.NotificationDB.Notific;
+import com.example.notificationblocker.NotificationDB.NotificDB;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class NotificationListener extends NotificationListenerService{
     Context context;
 
-//    private NotificationsDB notificationsDB;
+    private NotificDB notificationsDB;
     private AppsDB appsDB;
-    private List<String> appNameList;
 
     @Override
     public void onCreate() {
         super.onCreate();
         context = getApplicationContext();
-//        notificationsDB = NotificationsDB.getInstance(context);
+        notificationsDB = NotificDB.getInstance(context);
         appsDB = AppsDB.getInstance(context);
     }
 
@@ -34,7 +41,7 @@ public class NotificationListener extends NotificationListenerService{
 
     @Override
     public void onNotificationPosted(StatusBarNotification sbn) {
-        appNameList = appsDB.dbDAO().getAllAppNames();
+        List<String> appNameList = appsDB.dbDAO().getAllAppNames();
         if(appNameList.contains(getApplicationName(sbn.getPackageName()))){  // if the blocked list has the app name of the notification
             cancelNotification(sbn.getKey());
         }
@@ -43,19 +50,21 @@ public class NotificationListener extends NotificationListenerService{
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onNotificationRemoved(StatusBarNotification sbn) {
-//        super.onNotificationRemoved(sbn);
-//
-//        Bundle extras = sbn.getNotification().extras;
-//
-//        if(appNameList.contains(sbn.getPackageName())){
-//            Notification notification = new Notification(sbn.getId(), sbn.getPackageName(),
-//                    extras.get(android.app.Notification.EXTRA_TITLE).toString(),
-//                    extras.get(android.app.Notification.EXTRA_TEXT).toString());
-//            notificationsDB.dbDAO().insertANotification(notification);
-//        }
-    }
+        // Just put the notification into the DB
+
+        Notification notification = sbn.getNotification();
+        Bundle extras = notification.extras;
+        Notific notific = new Notific(sbn.getId(),
+                notification.getChannelId(),
+                "" + extras.get(Notification.EXTRA_TITLE),
+                "" + extras.get(Notification.EXTRA_TEXT),
+                getApplicationName(sbn.getPackageName()),
+                BitmapUtility.getBytes(notification.getSmallIcon().loadDrawable(context)));
+        notificationsDB.dbDAO().insertANotific(notific);
+    };
 
     /***
      * getApplicationName: get the application name of the notification belongs to
@@ -70,7 +79,6 @@ public class NotificationListener extends NotificationListenerService{
         } catch(PackageManager.NameNotFoundException e){
             appInfo = null;
         }
-        final String appName = (String) (appInfo != null? pm.getApplicationLabel(appInfo) : "(unknown)");  // if the appInfo is not null get the label of the Application
-        return appName;
+        return (String) (appInfo != null? pm.getApplicationLabel(appInfo) : "(unknown)");
     }
 }

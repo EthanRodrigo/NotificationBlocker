@@ -1,12 +1,15 @@
 package com.example.notificationblocker.AppDB;
 
+
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.io.Serializable;
+
 @Entity(tableName="BlockedApps")
-public class App{
+public class App implements Serializable{
     @PrimaryKey @NonNull
     private String appName;
 

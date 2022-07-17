@@ -4,21 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".BlockedAppsActivity.BlockedAppsActivity"
+    tools:context=".ShowNotifications.ShowNotificationsActivity"
     android:orientation="vertical">
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Blocked Apps"
-        android:textSize="25sp"
-        android:textStyle="italic|bold"
-        android:id="@+id/txtBlockedAll"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/blockedApps"
+        android:layout_height="wrap_content"
+        android:id="@+id/notificationList"
         android:scrollbars="vertical"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Clear All"
+        android:id="@+id/clearNotifications"
+        android:onClick="clearNotifications"/>
 
 </LinearLayout>
